@@ -200,6 +200,7 @@ void nglPerspective(VECTOR3 *v)
 {
     if (projection_mode == GL_PROJECTION_ORTHOGRAPHIC)
         return; //Ortho mode
+    
 #ifdef BETTER_PERSPECTIVE
     float new_z = v->z;
     decltype(new_z) new_x = v->x, new_y = v->y;
