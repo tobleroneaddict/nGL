@@ -111,6 +111,12 @@ public:
 #define GL_COLOR_BUFFER_BIT 1<<0
 #define GL_DEPTH_BUFFER_BIT 1<<1
 
+enum GLProjectionMode
+{
+    GL_PROJECTION_PERSPECTIVE,
+    GL_PROJECTION_ORTHOGRAPHIC
+};
+
 enum GLDrawMode
 {
     GL_TRIANGLES,
@@ -131,13 +137,6 @@ struct RGB
     extern volatile unsigned int fps;
 #endif
 extern MATRIX *transformation;
-
-enum GLProjectionMode
-{
-    GL_PROJECTION_PERSPECTIVE,
-    GL_PROJECTION_ORTHOGRAPHIC
-};
-
 
 RGB rgbColor(const COLOR c);
 COLOR colorRGB(const RGB rgb);
