@@ -828,8 +828,8 @@ void glBindTexture(const TEXTURE *tex)
 {
     texture = tex;
 
-    //if(tex && tex->has_transparency && tex->transparent_color != 0)
-        //printf("Bound texture doesn't have black as transparent color!\n");
+    if(tex && tex->has_transparency && tex->transparent_color != 0)
+        printf("Bound texture doesn't have black as transparent color!\n");
 }
 
 void nglSetNearPlane(const GLFix new_near_plane)
