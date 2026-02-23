@@ -132,6 +132,13 @@ struct RGB
 #endif
 extern MATRIX *transformation;
 
+enum GLProjectionMode
+{
+    GL_PROJECTION_PERSPECTIVE,
+    GL_PROJECTION_ORTHOGRAPHIC
+};
+
+
 RGB rgbColor(const COLOR c);
 COLOR colorRGB(const RGB rgb);
 COLOR colorRGB(const GLFix r, const GLFix g, const GLFix b);
@@ -162,6 +169,7 @@ void nglDrawTriangleZClipped(const VERTEX *low, const VERTEX *middle, const VERT
 void nglInterpolateVertexZ(const VERTEX *from, const VERTEX *to, VERTEX *res);
 void nglDrawLine3D(const VERTEX *v1, const VERTEX *v2);
 
+void nglSetProjectionMode(GLProjectionMode mode);
 void nglPerspective(VERTEX *v);
 void nglPerspective(VECTOR3 *v);
 void nglMultMatVectRes(const MATRIX *mat1, const VERTEX *vect, VERTEX *res);
