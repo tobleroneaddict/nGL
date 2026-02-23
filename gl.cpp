@@ -18,6 +18,7 @@ static SDL_Surface *scr;
 #define P(m, y, x) (m->data[y][x])
 
 MATRIX *transformation;
+static GLProjectionMode projection_mode = GLProjectionMode::GL_PROJECTION_PERSPECTIVE; //Default mode is perspective
 static COLOR color;
 static GLFix u, v;
 static COLOR *screen;
@@ -27,7 +28,9 @@ static const TEXTURE *texture;
 static unsigned int vertices_count = 0;
 static VERTEX vertices[4];
 static GLDrawMode draw_mode = GL_TRIANGLES;
+#ifdef _TINSPIRE
 static bool is_monochrome;
+#endif
 static COLOR *screen_inverted; //For monochrome calcs
 #ifdef FPS_COUNTER
     volatile unsigned int fps;
@@ -133,8 +136,14 @@ void nglMultMatVectRes(const MATRIX *mat1, const VECTOR3 *vect, VECTOR3 *res)
     res->z = P(mat1, 2, 0)*x + P(mat1, 2, 1)*y + P(mat1, 2, 2)*z + P(mat1, 2, 3);
 }
 
+void nglSetProjectionMode(GLProjectionMode mode) {
+    projection_mode = mode;
+}
+
 void nglPerspective(VERTEX *v)
 {
+    if (projection_mode == GL_PROJECTION_ORTHOGRAPHIC)
+        return; //Ortho mode
 #ifdef BETTER_PERSPECTIVE
     float new_z = v->z;
     decltype(new_z) new_x = v->x, new_y = v->y;
@@ -188,6 +197,8 @@ void nglPerspective(VERTEX *v)
 
 void nglPerspective(VECTOR3 *v)
 {
+    if (projection_mode == GL_PROJECTION_ORTHOGRAPHIC)
+        return; //Ortho mode
 #ifdef BETTER_PERSPECTIVE
     float new_z = v->z;
     decltype(new_z) new_x = v->x, new_y = v->y;
@@ -817,8 +828,8 @@ void glBindTexture(const TEXTURE *tex)
 {
     texture = tex;
 
-    if(tex && tex->has_transparency && tex->transparent_color != 0)
-        printf("Bound texture doesn't have black as transparent color!\n");
+    //if(tex && tex->has_transparency && tex->transparent_color != 0)
+        //printf("Bound texture doesn't have black as transparent color!\n");
 }
 
 void nglSetNearPlane(const GLFix new_near_plane)
