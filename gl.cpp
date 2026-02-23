@@ -29,9 +29,9 @@ static unsigned int vertices_count = 0;
 static VERTEX vertices[4];
 static GLDrawMode draw_mode = GL_TRIANGLES;
 #ifdef _TINSPIRE
-static bool is_monochrome;
+    static bool is_monochrome;
+    static COLOR *screen_inverted; //For monochrome calcs
 #endif
-static COLOR *screen_inverted; //For monochrome calcs
 #ifdef FPS_COUNTER
     volatile unsigned int fps;
 #endif
@@ -77,10 +77,9 @@ void nglUninit()
     uninit_fastmath();
     delete[] transformation;
     delete[] z_buffer;
-
-    delete[] screen_inverted;
-
+    
     #ifdef _TINSPIRE
+        delete[] screen_inverted;
         lcd_init(SCR_TYPE_INVALID);
     #else
         //TODO
@@ -145,6 +144,7 @@ void nglPerspective(VERTEX *v)
 {
     if (projection_mode == GL_PROJECTION_ORTHOGRAPHIC)
         return; //Ortho mode
+
 #ifdef BETTER_PERSPECTIVE
     float new_z = v->z;
     decltype(new_z) new_x = v->x, new_y = v->y;
