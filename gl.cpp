@@ -136,7 +136,8 @@ void nglMultMatVectRes(const MATRIX *mat1, const VECTOR3 *vect, VECTOR3 *res)
     res->z = P(mat1, 2, 0)*x + P(mat1, 2, 1)*y + P(mat1, 2, 2)*z + P(mat1, 2, 3);
 }
 
-void nglSetProjectionMode(GLProjectionMode mode) {
+void nglSetProjectionMode(GLProjectionMode mode)
+{
     projection_mode = mode;
 }
 
